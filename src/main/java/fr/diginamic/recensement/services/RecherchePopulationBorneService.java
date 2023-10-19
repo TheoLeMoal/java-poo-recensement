@@ -28,16 +28,27 @@ public class RecherchePopulationBorneService extends MenuService {
 		System.out.println("Choississez une population maximum (en milliers d'habitants): ");
 		String saisieMax = scanner.nextLine();
 
-		int min = Integer.parseInt(saisieMin) * 1000;
-		int max = Integer.parseInt(saisieMax) * 1000;
-		
-		List<Ville> villes = rec.getVilles();
-		for (Ville ville : villes) {
-			if (ville.getCodeDepartement().equalsIgnoreCase(choix)) {
-				if (ville.getPopulation() >= min && ville.getPopulation() <= max) {
-					System.out.println(ville);
+		try {
+			int min = Integer.parseInt(saisieMin) * 1000;
+			int max = Integer.parseInt(saisieMax) * 1000;
+			if (min < 0 || max < 0 || min > max) {
+				throw new Exception("utilisateur saisit un min inférieur à 0 ou un max inférieur à 0 ou un min supérieur à max.\n");
+			}
+			List<Ville> villes = rec.getVilles();
+			boolean trouve = false;
+			for (Ville ville : villes) {
+				if (ville.getCodeDepartement().equalsIgnoreCase(choix)) {
+					if (ville.getPopulation() >= min && ville.getPopulation() <= max) {
+						System.out.println(ville);
+						trouve = true;
+					}
 				}
 			}
+			if (!trouve) {
+				throw new Exception("Aucune ville trouvée pour ce département et cette plage de population.\n");
+			}
+		} catch (Exception e) {
+			System.out.println("Saisissez des chiffres valides pour la population minimum et maximum.\n" + e);
 		}
 	}
 

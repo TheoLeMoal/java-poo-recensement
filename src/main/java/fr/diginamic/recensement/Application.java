@@ -29,7 +29,7 @@ public class Application {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 
-		String filePath = ClassLoader.getSystemClassLoader().getResource("recensement.csv").getFile();
+		String filePath = "E:\\Projets java\\java-poo-recensement\\src\\main\\resources\\recensement.csv";
 		Recensement recensement = RecensementUtils.lire(filePath);
 
 		if (recensement == null) {
@@ -65,8 +65,13 @@ public class Application {
 				rechercheRegion.traiter(recensement, scanner);
 				break;
 			case 4:
-				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
-				recherchePopBorne.traiter(recensement, scanner);
+				try {
+					RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
+					recherchePopBorne.traiter(recensement, scanner);
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
+
 				break;
 			case 5:
 				RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
